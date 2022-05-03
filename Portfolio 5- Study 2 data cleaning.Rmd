@@ -1,0 +1,77 @@
+---
+title: "Portfolio 5- Study 2 data cleaning"
+author: "Adam"
+date: "5/3/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+The goal of this markdown is to clean the data from Study 2 of my thesis.
+
+## Set-up
+
+
+```{r packages, echo=TRUE, message=FALSE}
+library('reshape2')
+library('dplyr')
+library('Rcpp')
+library('readr')
+library('tidyverse')
+library('psych')
+```
+
+### Pulling in the data
+
+For this study, we have two datasets that we want to be able to combine into a single dataset. The first, Study 1 survey, has data from the survey we had participants take; and the second, Study 1 quiz, has their responses to the quiz they took.
+
+First, we need to pull in the survey data
+
+```{r bringing in survey data, echo=TRUE, collapse=TRUE, message=FALSE}
+survey <- read_csv("data/Study 1 survey.csv")
+
+# Ensuring the dataframe is a tibble.
+as_tibble(survey)
+
+#Taking a look at the table.
+View(survey)
+```
+
+```{r bringing in survey data, echo=TRUE, collapse=TRUE, message=FALSE}
+quiz <- read_csv("data/Study 1 Quiz.csv")
+
+# Ensuring the dataframe is a tibble.
+as_tibble(quiz)
+
+#Taking a look at the table.
+View(quiz)
+```
+
+
+Some cleaning was done in excel prior. 
+
+
+As with Study 1, the data has already had its identifiers removed, but if it didn't, here is where that would be done. 
+study1 <- subset(study1, select= -c(StartDate, EndDate, Status,	IPAddress, Progress,
+                Finished, RecordedDate, ResponseId, Durationinseconds, RecipientLastName, RecipientFirstName,
+                RecipientEmail, ExternalReference, LocationLatitude, LocationLongitude,
+                DistributionChannel, UserLanguage))
+
+The other bit of cleaning I did was ensuring that participants input their participant id, which is used to identify them across the two datasets, in the same way. In actual practice, I have an excel document that tracks all the manual changes that were made in cleaning that up, but it is not linked here.
+
+The next step will be to create the merged data file.
+
+```{r data merging, echo=TRUE, collapse=TRUE, message=FALSE}
+study1 <- survey %>% 
+  full_join(quiz, by = "participant_id")
+
+#Always make sure it's a tibble
+as_tibble(study1)
+
+View(study1)
+```
+
+
+
