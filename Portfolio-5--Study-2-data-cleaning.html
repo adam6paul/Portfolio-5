@@ -195,7 +195,7 @@ summary {
 </div>
 
 
-<p>The goal of this markdown is to clean the data from Study 2 of my thesis.</p>
+<p>The goal of this portfolio is to clean the data from Study 2 of my thesis.</p>
 <div id="set-up" class="section level2">
 <h2>Set-up</h2>
 <pre class="r"><code>library(&#39;reshape2&#39;)
@@ -212,7 +212,7 @@ library(&#39;psych&#39;)</code></pre>
 
 # Ensuring the dataframe is a tibble.
 as_tibble(survey)
-## # A tibble: 140 x 93
+## # A tibble: 140 x 95
 ##    Finished participant_id manip_interest manip_personal manip_encourage
 ##       &lt;dbl&gt; &lt;chr&gt;                   &lt;dbl&gt;          &lt;dbl&gt;           &lt;dbl&gt;
 ##  1        1 102A                        4              4               4
@@ -225,7 +225,7 @@ as_tibble(survey)
 ##  8        1 104A                        3              2               4
 ##  9        1 104B                        2              4               4
 ## 10        1 104C                        3              3               4
-## # ... with 130 more rows, and 88 more variables: manip_help_think &lt;dbl&gt;,
+## # ... with 130 more rows, and 90 more variables: manip_help_think &lt;dbl&gt;,
 ## #   manip_represent &lt;dbl&gt;, manip_suprise &lt;dbl&gt;, group_talk &lt;dbl&gt;,
 ## #   group_engage &lt;dbl&gt;, group_enjoy &lt;dbl&gt;, group_fun &lt;dbl&gt;, self_close &lt;dbl&gt;,
 ## #   self_like &lt;dbl&gt;, group_like &lt;dbl&gt;, group_tell &lt;dbl&gt;, group_share &lt;dbl&gt;,
@@ -268,7 +268,7 @@ View(quiz)</code></pre>
 
 #Always make sure it&#39;s a tibble
 as_tibble(study1)
-## # A tibble: 140 x 103
+## # A tibble: 140 x 105
 ##    Finished.x participant_id manip_interest manip_personal manip_encourage
 ##         &lt;dbl&gt; &lt;chr&gt;                   &lt;dbl&gt;          &lt;dbl&gt;           &lt;dbl&gt;
 ##  1          1 102A                        4              4               4
@@ -281,7 +281,7 @@ as_tibble(study1)
 ##  8          1 104A                        3              2               4
 ##  9          1 104B                        2              4               4
 ## 10          1 104C                        3              3               4
-## # ... with 130 more rows, and 98 more variables: manip_help_think &lt;dbl&gt;,
+## # ... with 130 more rows, and 100 more variables: manip_help_think &lt;dbl&gt;,
 ## #   manip_represent &lt;dbl&gt;, manip_suprise &lt;dbl&gt;, group_talk &lt;dbl&gt;,
 ## #   group_engage &lt;dbl&gt;, group_enjoy &lt;dbl&gt;, group_fun &lt;dbl&gt;, self_close &lt;dbl&gt;,
 ## #   self_like &lt;dbl&gt;, group_like &lt;dbl&gt;, group_tell &lt;dbl&gt;, group_share &lt;dbl&gt;,
@@ -725,6 +725,64 @@ study1 &lt;- study1 %&gt;%
 
 study1$quiz_average &lt;- round(study1$quiz_average, digits = 2)</code></pre>
 </div>
+</div>
+<div id="dummy-coding-for-class" class="section level3">
+<h3>Dummy coding for class</h3>
+<pre class="r"><code># Gangel section
+study1 &lt;- study1 %&gt;%
+        mutate(
+        section_gangel=case_when(
+                class_section == 3 ~ 1
+                ))
+
+study1 &lt;- study1 %&gt;%
+        mutate(
+          section_gangel=case_when(
+          section_gangel == 1 ~ 1,
+          is.na(section_gangel) ~ 0 
+          ))
+
+# Greene section
+study1 &lt;- study1 %&gt;%
+        mutate(
+        section_greene=case_when(
+                class_section == 1 ~ 1
+                ))
+
+study1 &lt;- study1 %&gt;%
+        mutate(
+          section_greene=case_when(
+          section_greene == 1 ~ 1,
+          is.na(section_greene) ~ 0 
+          ))
+
+# Verbeke section
+study1 &lt;- study1 %&gt;%
+        mutate(
+        section_verbeke=case_when(
+                class_section == 2 ~ 1
+                ))
+
+study1 &lt;- study1 %&gt;%
+        mutate(
+          section_verbeke=case_when(
+          section_verbeke == 1 ~ 1,
+          is.na(section_verbeke) ~ 0 
+          ))
+
+# Cameron section
+study1 &lt;- study1 %&gt;%
+        mutate(
+        section_cameron=case_when(
+                class_section == 4 ~ 1
+                ))
+
+study1 &lt;- study1 %&gt;%
+        mutate(
+          section_cameron=case_when(
+          section_cameron == 1 ~ 1,
+          is.na(section_cameron) ~ 0 
+          ))</code></pre>
 </div>
 <div id="variables-of-interest" class="section level3">
 <h3>Variables of Interest</h3>

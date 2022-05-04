@@ -121,7 +121,7 @@ count(demog_gender_trans, demog_gender_twospirit, demog_gender_genderqueer, demo
 
 A single participant answered that they were genderqueer. This is too little to do anything with, so I will only dichotomize gender.
 
-```{r Creating  binary gender dummy code}
+```{r Creating binary gender dummy code}
 study1 <- study1 %>%
         mutate(
         gender_male_dummy=case_when(
@@ -556,14 +556,64 @@ study1$quiz_average <- round(study1$quiz_average, digits = 2)
 
 ### Dummy coding for class
 
+```{r class section dummy code}
+# Gangel section
+study1 <- study1 %>%
+        mutate(
+        section_gangel=case_when(
+                class_section == 3 ~ 1
+                ))
 
-First, "session" was computed manually by dropping the A, B, C, D, from participant_id. 
-From that, "condition" was created by comparing to a separate document that tracked the sessions and conditions.
+study1 <- study1 %>%
+        mutate(
+          section_gangel=case_when(
+          section_gangel == 1 ~ 1,
+          is.na(section_gangel) ~ 0 
+          ))
 
-On condition, 0=control, 1=talk, 2=experimental.
+# Greene section
+study1 <- study1 %>%
+        mutate(
+        section_greene=case_when(
+                class_section == 1 ~ 1
+                ))
 
+study1 <- study1 %>%
+        mutate(
+          section_greene=case_when(
+          section_greene == 1 ~ 1,
+          is.na(section_greene) ~ 0 
+          ))
 
-From there I created a variable called section, which used the separate document to track the session they were in, i.e, what class.
+# Verbeke section
+study1 <- study1 %>%
+        mutate(
+        section_verbeke=case_when(
+                class_section == 2 ~ 1
+                ))
+
+study1 <- study1 %>%
+        mutate(
+          section_verbeke=case_when(
+          section_verbeke == 1 ~ 1,
+          is.na(section_verbeke) ~ 0 
+          ))
+
+# Cameron section
+study1 <- study1 %>%
+        mutate(
+        section_cameron=case_when(
+                class_section == 4 ~ 1
+                ))
+
+study1 <- study1 %>%
+        mutate(
+          section_cameron=case_when(
+          section_cameron == 1 ~ 1,
+          is.na(section_cameron) ~ 0 
+          ))
+
+```
 
 
 
