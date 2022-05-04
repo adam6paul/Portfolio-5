@@ -39,7 +39,7 @@ as_tibble(survey)
 View(survey)
 ```
 
-```{r bringing in survey data, echo=TRUE, collapse=TRUE, message=FALSE}
+```{r bringing in quiz data, echo=TRUE, collapse=TRUE, message=FALSE}
 quiz <- read_csv("data/Study 2 Quiz.csv")
 
 # Ensuring the dataframe is a tibble.
@@ -395,7 +395,7 @@ study1 <- study1 %>%
 
 With these composites in hand, I can look more closely at how many we have in each category
 
-```{r freq race}
+```{r freq race, collapse=TRUE}
 table(study1$race_white)
 table(study1$race_black)
 table(study1$race_asian)
@@ -568,7 +568,7 @@ The first manipulation check item asked about how much the participants believed
 
 First, we should check the reliability.
 
-```{r disclosure manip reliability}
+```{r question discl manip reliability}
 alpha(study1[,c("manip_personal", "manip_encourage")])
 
 ```
@@ -577,7 +577,7 @@ Alpha is .73. Not amazing, but good enough to use.
 
 Now, we can create the composite.
 
-```{r disclosure manip composite}
+```{r question discl composite}
 
 study1$manip_check_comp2 <- rowMeans(study1[,c("manip_personal", "manip_encourage")], 
                               na.rm=TRUE)
@@ -590,7 +590,7 @@ The next manipulation check item asked about participants' actual levels of disc
 
 Checking the reliability.
 
-```{r disclosure manip reliability}
+```{r self disclosure manip reliability}
 alpha(study1[,c("self_tell", "self_share", "self_learn_about")])
 
 ```
@@ -599,7 +599,7 @@ Reliability is .89
 
 Creating the composite.
 
-```{r disclosure manip composite}
+```{r self disclosure manip composite}
 
 study1$self_disclosure_comp3 <- rowMeans(study1[,c("self_tell", "self_share", "self_learn_about")], 
                               na.rm=TRUE)
@@ -612,7 +612,7 @@ The final manipulation check item asked about participants' beliefs about their 
 
 Checking the reliability.
 
-```{r disclosure manip reliability}
+```{r group disclosure manip reliability}
 alpha(study1[,c("group_tell", "group_share", "group_learn_about")])
 
 ```
@@ -621,7 +621,7 @@ Reliability is .91
 
 Creating the composite.
 
-```{r disclosure manip composite}
+```{r group disclosure manip composite}
 
 study1$group_disclosure_comp3 <- rowMeans(study1[,c("group_tell", "group_share", "group_learn_about")], 
                               na.rm=TRUE)
