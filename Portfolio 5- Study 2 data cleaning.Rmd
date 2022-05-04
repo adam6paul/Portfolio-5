@@ -375,7 +375,6 @@ study1 <- study1 %>%
 Composed of individuals who identified as Native Hawaiian or Other Pacific Islander, American Indian or Alaskan Native; or demog_race_41 and demog_race_42.
 
 
-
 ```{r Native composite dummy code}
 study1 <- study1 %>%
         mutate(
@@ -557,9 +556,250 @@ study1$quiz_average <- round(study1$quiz_average, digits = 2)
 
 Next, we need to create the composite variables for the variables of interest.
 
-#### Manipulation check item
 
-manip_interest manip_personal manip_encourage
+#### Manipulation check items
+
+We had three manipulation check items.
 
 
-### Wrapping up
+##### Question disclosure
+
+The first manipulation check item asked about how much the participants believed the questions asked them to disclose, consisting of two items: manip_personal and manip_encourage.
+
+First, we should check the reliability.
+
+```{r disclosure manip reliability}
+alpha(study1[,c("manip_personal", "manip_encourage")])
+
+```
+
+Alpha is .73. Not amazing, but good enough to use.
+
+Now, we can create the composite.
+
+```{r disclosure manip composite}
+
+study1$manip_check_comp2 <- rowMeans(study1[,c("manip_personal", "manip_encourage")], 
+                              na.rm=TRUE)
+```
+
+
+##### Self-disclosure
+
+The next manipulation check item asked about participants' actual levels of disclosure, consisting of three items: self_tell, self_share, and self_learn_about.
+
+Checking the reliability.
+
+```{r disclosure manip reliability}
+alpha(study1[,c("self_tell", "self_share", "self_learn_about")])
+
+```
+
+Reliability is .89
+
+Creating the composite.
+
+```{r disclosure manip composite}
+
+study1$self_disclosure_comp3 <- rowMeans(study1[,c("self_tell", "self_share", "self_learn_about")], 
+                              na.rm=TRUE)
+```
+
+
+##### Group disclosure
+
+The final manipulation check item asked about participants' beliefs about their group members' level of disclosure, consisting of three similar items to self-disclosure: group_tell, group_share, and group_learn_about.
+
+Checking the reliability.
+
+```{r disclosure manip reliability}
+alpha(study1[,c("group_tell", "group_share", "group_learn_about")])
+
+```
+
+Reliability is .91
+
+Creating the composite.
+
+```{r disclosure manip composite}
+
+study1$group_disclosure_comp3 <- rowMeans(study1[,c("group_tell", "group_share", "group_learn_about")], 
+                              na.rm=TRUE)
+```
+
+
+##### Group talk
+
+One question asked about whether groups talked, but that obvious doesn't need any cleaning here.
+
+
+
+#### Institutional belonging
+
+There are four variables that make up institutional belonging, "school_belong", "school_outsider", "school_comfort", and "school_fit_in".
+
+One of the four variables needs to be reverse scored, school_outsider.
+
+```{r reverse scoring WFU outsider}
+study1 <- study1 %>%
+        mutate(WFU_outsiderR= 8- WFU_outsider
+                              )
+```
+
+Testing the reliability of the measure. Technically alpha gets masked by ggplot but I can just enable psych for a moment to override it.
+
+```{r institutional belonging Reliability}
+alpha(study1[,c("WFU_belong", "WFU_outsiderR", "WFU_comfort", "WFU_fit_in")])
+
+```
+
+Reliability is .92
+
+Creating the actual composite.
+
+```{r institutional belonging composite}
+
+study1$school_belong_comp4 <- rowMeans(study1[,c("WFU_belong", "WFU_outsiderR", "WFU_comfort", "WFU_fit_in")], 
+                              na.rm=TRUE)
+```
+
+
+
+#### Class belonging
+
+Same as institutional belonging, there are the same four questions (with the prefix class_ this time) and I need to reverse score "class_outsider"
+
+```{r reverse scoring class outsider}
+study1 <- study1 %>%
+        mutate(class_outsiderR= 8- class_outsider
+        )
+
+```
+
+```{r class belonging reliability}
+alpha(study1[,c("class_belong", "class_outsiderR", "class_comfort", "class_fit_in")])
+```
+
+Reliability is .89
+
+```{r Class belonging composite}
+study1$class_belong_comp4 <- rowMeans(study1[,c("class_belong", "class_outsiderR", "class_comfort", "class_fit_in")], 
+                              na.rm=TRUE)
+```
+
+
+
+#### Closeness
+
+We made a 3 item composite for how close participants felt to their group members, consisting of: self_close, self_like, and group_like.
+
+```{r closeness reliability}
+alpha(study1[,c("self_close", "self_like", "group_like")])
+```
+
+Reliability is .71
+
+```{r closeness composite}
+study1$close_comp3 <- rowMeans(study1[,c("self_close", "self_like", "group_like")], 
+                              na.rm=TRUE)
+```
+
+
+
+#### Subject Area motivation
+
+We asked about subject area motivation in two ways: intrinsic motivation and utility motivation.
+
+##### Intrinsic motivation
+
+The intrinsic motivation construct is made of two items: motiv_interesting and motiv_like.
+
+```{r intrinsic motivation reliability}
+alpha(study1[,c("motiv_interesting", "motiv_like")])
+```
+
+Reliability is .74
+
+```{r intrinsic motivation composite}
+study1$motiv_intrins_comp2 <- rowMeans(study1[,c("motiv_interesting", "motiv_like")], 
+                              na.rm=TRUE)
+```
+
+
+##### Utility motivation
+
+The utility motivation construct is made of three items: motiv_use_now, motiv_use_future, and motiv_use_grad
+
+```{r utility motivation reliability}
+alpha(study1[,c("motiv_use_now", "motiv_use_future", "motiv_use_grad")])
+```
+
+Reliability is .87
+
+```{r utility motivation composite}
+study1$motiv_util_comp3 <- rowMeans(study1[,c("motiv_use_now", "motiv_use_future", "motiv_use_grad")], 
+                              na.rm=TRUE)
+```
+
+
+
+### Exploratory analyses
+
+We had several questions that we were interested in on an exploratory basis.
+
+
+#### Thinking deeper
+
+One item asked about whether questions prompted participants to think deeper about the quiz topic.
+
+
+#### Similarity to class
+
+We asked participants about how similar the review task they did was to a task they think they would do in class. Two items measured this: manip_represent, manip_surprise. Surprise needs to be reverse-scored.
+
+```{r reverse scoring surprise}
+study1 <- study1 %>%
+        mutate(manip_surpriseR= 6- manip_suprise
+        )
+
+```
+Yes, there was a typo, but I don't want to go back and fix it since it already needs to be reverse scored.
+
+```{r similarity reliability}
+alpha(study1[,c("manip_represent", "manip_surpriseR")])
+```
+
+Reliability is .63. Which is really not great, but we did use it in my thesis.
+
+```{r similarity composite}
+study1$class_similar_comp2 <- rowMeans(study1[,c("manip_represent", "manip_surpriseR")], 
+                              na.rm=TRUE)
+```
+
+
+#### Task enjoyment
+
+We asked participants about how much they enjoyed the task, with three items: group_engage, group_enjoy, and group_fun.
+
+
+```{r enjoyment reliability}
+alpha(study1[,c("group_engage", "group_enjoy", "group_fun")])
+```
+
+Reliability is .87
+
+```{r enjoyment composite}
+study1$group_engagement_comp3 <- rowMeans(study1[,c("group_engage", "group_enjoy", "group_fun")], 
+                              na.rm=TRUE)
+```
+
+
+
+### Saving data
+
+```{r saving data}
+write.csv(study1, file = "Study2_data_R_cleaned.csv")
+```
+
+
+It is finished!
