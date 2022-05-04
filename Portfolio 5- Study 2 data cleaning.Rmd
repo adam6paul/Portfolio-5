@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-The goal of this markdown is to clean the data from Study 2 of my thesis.
+The goal of this portfolio is to clean the data from Study 2 of my thesis.
 
 ## Set-up
 
@@ -551,6 +551,21 @@ study1 <- study1 %>%
 study1$quiz_average <- round(study1$quiz_average, digits = 2)
 
 ```
+
+
+
+### Dummy coding for class
+
+
+First, "session" was computed manually by dropping the A, B, C, D, from participant_id. 
+From that, "condition" was created by comparing to a separate document that tracked the sessions and conditions.
+
+On condition, 0=control, 1=talk, 2=experimental.
+
+
+From there I created a variable called section, which used the separate document to track the session they were in, i.e, what class.
+
+
 
 ### Variables of Interest
 
