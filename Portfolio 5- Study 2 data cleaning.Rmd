@@ -407,7 +407,7 @@ table(study1$race_multiracial)
 
 We have no native participants, so it is not needed. The majority of our sample is white, unsurprisingly.
 
-##### Quiz recoding
+#### Quiz recoding
 
 We need to create dummy coded scores for the quiz, so I can get an average more easily.
 
@@ -553,7 +553,13 @@ study1$quiz_average <- round(study1$quiz_average, digits = 2)
 
 ```
 
+### Variables of Interest
 
+Next, we need to create the composite variables for the variables of interest.
+
+#### Manipulation check item
+
+manip_interest manip_personal manip_encourage
 
 
 ### Wrapping up
