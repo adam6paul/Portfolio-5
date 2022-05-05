@@ -585,18 +585,18 @@ study1 <- study1 %>%
           is.na(section_greene) ~ 0 
           ))
 
-# Verbeke section
+# Verbecke section
 study1 <- study1 %>%
         mutate(
-        section_verbeke=case_when(
+        section_verbecke=case_when(
                 class_section == 2 ~ 1
                 ))
 
 study1 <- study1 %>%
         mutate(
-          section_verbeke=case_when(
-          section_verbeke == 1 ~ 1,
-          is.na(section_verbeke) ~ 0 
+          section_verbecke=case_when(
+          section_verbecke == 1 ~ 1,
+          is.na(section_verbecke) ~ 0 
           ))
 
 # Cameron section
@@ -615,6 +615,11 @@ study1 <- study1 %>%
 
 ```
 
+```{r ensuring condition is a charcter vector}
+
+study1$condition <- as.character(study1$condition)
+```
+
 
 
 ### Variables of Interest
@@ -627,7 +632,7 @@ Next, we need to create the composite variables for the variables of interest.
 We had three manipulation check items.
 
 
-##### Question disclosure
+##### Disclosure
 
 The first manipulation check item asked about how much the participants believed the questions asked them to disclose, consisting of two items: manip_personal and manip_encourage.
 
