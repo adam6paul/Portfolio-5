@@ -76,15 +76,15 @@ as_tibble(study1)
 View(study1)
 ```
 
-### Descriptives cleaning
+## Descriptives cleaning
 
-Fortunately, this is a great opportunity to ensure that the code from Portfolio 1 is working, since much of the cleaning is pretty similar. 
 
-##### Gender dummy coding
+
+### Gender dummy coding
 
 First, I need to look at whether we have non-binary individuals in the dataset.
 
-I did not change the variable names to the more convenient ones used in Study 1, so I am going to do that now.
+The variable names are not the more convenient ones used in Study 1, so I am going to do that now.
 
 ```{r renaming gender variables, collapse=TRUE}
 #male
@@ -131,9 +131,9 @@ study1 <- study1 %>%
 ```
 
 
-##### Race dummy coding
+## Race dummy coding
 
-The first time the code should be able to be pulled directly!
+This is the first time the code should be able to be pulled directly from an earlier portfolio, which feels great. Reusing code is the best.
 
 To create the race dummy codes, I first need to create a multiracial composite so that I can avoid adding multiracial people to individual dummy codes. 
 
@@ -281,7 +281,7 @@ study1 <- study1 %>%
 
 Now, I can make the racial composites. Due to sample size constraints I am going to have to make composites for several races. All composites will include their respective races and did not answer more than one race.
 
-##### White composite
+#### White composite
 
 Composed of individuals who identified as European/European American, Middle Eastern/Middle Eastern American, Other White; or demog_race_51, demog_race_52, and demog_race_59.
 
@@ -303,7 +303,7 @@ study1 <- study1 %>%
 
 ```
 
-##### Black composite
+#### Black composite
 
 Composed of individuals who identified as African American/Black, African, Caribbean, Other Black; or demog_race_21, demog_race_22, demog_race_23, and demog_race_29
 
@@ -325,7 +325,7 @@ study1 <- study1 %>%
 
 ```
 
-##### Hispanic composite
+#### Hispanic composite
 
 Composed of individuals who identified as Mexican American/Chicano, Puerto Rican, Central American, Other Hispanic or Latino; or demog_race_31, demog_race_32, demog_race_33, and demog_race_39.
 
@@ -347,7 +347,7 @@ study1 <- study1 %>%
 
 ```
 
-##### Asian composite
+#### Asian composite
 
 Composed of individuals who identified as East Asian (e.g., Chinese, Japanese, Korean, Taiwanese), Southeast Asian (e.g., Filipino, Vietnamese, Indonesian), South Asian (e.g., Pakistani, Indian, Nepalese, Sri Lankan), Other Asian; or demog_race_11, demog_race_12, demog_race_13, and demog_race_19.
 
@@ -370,7 +370,7 @@ study1 <- study1 %>%
 
 ```
 
-##### Native composite
+#### Native composite
 
 Composed of individuals who identified as Native Hawaiian or Other Pacific Islander, American Indian or Alaskan Native; or demog_race_41 and demog_race_42.
 
@@ -406,7 +406,7 @@ table(study1$race_multiracial)
 
 We have no native participants, so it is not needed. The majority of our sample is white, unsurprisingly.
 
-#### Quiz recoding
+## Quiz recoding
 
 We need to create dummy coded scores for the quiz, so I can get an average more easily.
 
@@ -485,7 +485,7 @@ study1 <- study1 %>%
 study1 <- study1 %>%
         mutate(
         Quiz_Q6=case_when(
-                Question_6 == 3 ~ 4
+                Question_6 == 3 ~ 1
                 ))
 
 study1 <- study1 %>%
@@ -622,17 +622,17 @@ study1$condition <- as.character(study1$condition)
 
 
 
-### Variables of Interest
+## Variables of Interest
 
 Next, we need to create the composite variables for the variables of interest.
 
 
-#### Manipulation check items
+### Manipulation check items
 
 We had three manipulation check items.
 
 
-##### Disclosure
+#### Disclosure
 
 The first manipulation check item asked about how much the participants believed the questions asked them to disclose, consisting of two items: manip_personal and manip_encourage.
 
@@ -654,7 +654,7 @@ study1$manip_check_comp2 <- rowMeans(study1[,c("manip_personal", "manip_encourag
 ```
 
 
-##### Self-disclosure
+#### Self-disclosure
 
 The next manipulation check item asked about participants' actual levels of disclosure, consisting of three items: self_tell, self_share, and self_learn_about.
 
@@ -676,7 +676,7 @@ study1$self_disclosure_comp3 <- rowMeans(study1[,c("self_tell", "self_share", "s
 ```
 
 
-##### Group disclosure
+#### Group disclosure
 
 The final manipulation check item asked about participants' beliefs about their group members' level of disclosure, consisting of three similar items to self-disclosure: group_tell, group_share, and group_learn_about.
 
@@ -698,15 +698,17 @@ study1$group_disclosure_comp3 <- rowMeans(study1[,c("group_tell", "group_share",
 ```
 
 
-##### Group talk
+#### Group talk
 
 One question asked about whether groups talked, but that obvious doesn't need any cleaning here.
 
 
 
+### Belonging
+
 #### Institutional belonging
 
-There are four variables that make up institutional belonging, "school_belong", "school_outsider", "school_comfort", and "school_fit_in".
+There are four variables that make up institutional belonging, "wfu_belong", "wfu_outsider", "wfu_comfort", and "wfu_fit_in".
 
 One of the four variables needs to be reverse scored, school_outsider.
 
@@ -776,11 +778,11 @@ study1$close_comp3 <- rowMeans(study1[,c("self_close", "self_like", "group_like"
 
 
 
-#### Subject Area motivation
+### Subject Area motivation
 
 We asked about subject area motivation in two ways: intrinsic motivation and utility motivation.
 
-##### Intrinsic motivation
+#### Intrinsic motivation
 
 The intrinsic motivation construct is made of two items: motiv_interesting and motiv_like.
 
@@ -796,9 +798,9 @@ study1$motiv_intrins_comp2 <- rowMeans(study1[,c("motiv_interesting", "motiv_lik
 ```
 
 
-##### Utility motivation
+#### Utility motivation
 
-The utility motivation construct is made of three items: motiv_use_now, motiv_use_future, and motiv_use_grad
+The utility motivation construct is made of three items: motiv_use_now, motiv_use_future, and motiv_use_grad.
 
 ```{r utility motivation reliability}
 alpha(study1[,c("motiv_use_now", "motiv_use_future", "motiv_use_grad")])
@@ -813,7 +815,7 @@ study1$motiv_util_comp3 <- rowMeans(study1[,c("motiv_use_now", "motiv_use_future
 
 
 
-### Exploratory analyses
+## Exploratory analyses
 
 We had several questions that we were interested in on an exploratory basis.
 
@@ -865,11 +867,13 @@ study1$group_engagement_comp3 <- rowMeans(study1[,c("group_engage", "group_enjoy
 
 
 
-### Saving data
+## Saving data
 
 ```{r saving data}
 write.csv(study1, file = "Study2_data_R_cleaned.csv")
 ```
 
 
-It is finished!
+### Finishing up
+
+This was a lot more similar to 1, but that's actually a good thing to me. It means that I am able to adapt the code fairly well to new projects, without having to write major new sections.
